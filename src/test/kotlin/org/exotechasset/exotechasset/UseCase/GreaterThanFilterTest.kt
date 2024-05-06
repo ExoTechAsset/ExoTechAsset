@@ -15,8 +15,10 @@ internal class GreaterThanFilterTest {
 
     @Test
     fun testMeet() {
-        val filter = GreaterThanFilter(FilterParameter(By.AUDIT_DATE, null)
-, FilterParameter(By.VALUE, 1714406400.toLong()))
+        val filter = GreaterThanFilter(listOf(
+                        FilterParameter(By.AUDIT_DATE, null),
+                        FilterParameter(By.VALUE, 1714406400.toLong())
+                    ))
         val filteredAssets = filter.meet(assetList)
 
         assertEquals(listOf(assetList[1], assetList[2]), filteredAssets)

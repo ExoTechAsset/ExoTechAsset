@@ -19,9 +19,15 @@ internal class OrFilterTest {
     fun testMeet() {
 
         val filter1 =
-                EqualsToFilter(FilterParameter(By.ID, null), FilterParameter(By.VALUE, "AS-01"))
+                EqualsToFilter(listOf(
+                        FilterParameter(By.ID, null),
+                        FilterParameter(By.VALUE, "AS-01")
+                ))
         val filter2 =
-                EqualsToFilter(FilterParameter(By.ID, null), FilterParameter(By.VALUE, "AS-02"))
+                EqualsToFilter(listOf(
+                        FilterParameter(By.ID, null),
+                        FilterParameter(By.VALUE, "AS-02")
+                ))
         val orFilter = OrFilter(listOf(filter1, filter2))
         val filteredAssets = orFilter.meet(assetList)
 

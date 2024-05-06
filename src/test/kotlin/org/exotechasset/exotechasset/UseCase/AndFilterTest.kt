@@ -18,17 +18,16 @@ internal class AndFilterTest {
 
     @Test
     fun testMeet() {
+        val filter1 = GreaterThanFilter(listOf(
+                FilterParameter(By.AUDIT_DATE, null),
+                FilterParameter(By.VALUE, 1717170000.toLong())
+        ))
 
-        val filter1 =
-                GreaterThanFilter(
-                        FilterParameter(By.AUDIT_DATE, null),
-                        FilterParameter(By.VALUE, 1717170000.toLong())
-                )
-        val filter2 =
-                LessThanFilter(
-                        FilterParameter(By.AUDIT_DATE, null),
-                        FilterParameter(By.VALUE, 1814406400.toLong())
-                )
+        val filter2 = LessThanFilter(listOf(
+                FilterParameter(By.AUDIT_DATE, null),
+                FilterParameter(By.VALUE, 1814406400.toLong())
+        ))
+
         val andFilter = AndFilter(listOf(filter1, filter2))
         val filteredAssets = andFilter.meet(assetList)
 

@@ -17,7 +17,10 @@ internal class EqualsToFilterTest {
     @Test
     fun testMeet() {
         val filter =
-                EqualsToFilter(FilterParameter(By.ID, null), FilterParameter(By.VALUE, "AS-01"))
+                EqualsToFilter(listOf(
+                        FilterParameter(By.ID, null),
+                        FilterParameter(By.VALUE, "AS-01")
+                ))
         val filteredAssets = filter.meet(assetList)
 
         assertEquals(listOf(assetList[0]), filteredAssets)

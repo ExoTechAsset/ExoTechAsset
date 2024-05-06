@@ -17,10 +17,10 @@ internal class LessThanOrEqualsToFilterTest {
     @Test
     fun testMeet() {
         val filter =
-                LessThanOrEqualsToFilter(
+                LessThanOrEqualsToFilter(listOf(
                         FilterParameter(By.AUDIT_DATE, null),
                         FilterParameter(By.VALUE, 1717171200.toLong())
-                )
+                ))
         val filteredAssets = filter.meet(assetList)
 
         assertEquals(listOf(assetList[0], assetList[1]), filteredAssets)
