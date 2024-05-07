@@ -1,233 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExoTechAsset Management System</title>
-    <style>
-        /* Add your CSS styles here */
-        /* This is just a placeholder */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ExoTechAsset Management System</title>
+        <style>
+            /* Add your CSS styles here */
+            /* This is just a placeholder */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
+            .container {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+            }
 
-        h1 {
-            text-align: center;
-        }
+            h1 {
+                text-align: center;
+            }
 
-        form {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+            form {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-        .condition {
-            display: flex;
-            margin-bottom: 10px;
-        }
+            .condition {
+                display: flex;
+                margin-bottom: 10px;
+            }
 
-        .condition div,
-        .condition input[type="text"] {
-            margin-right: 5px;
-            padding: 5px;
-        }
+            .condition div,
+            .condition input[type="text"] {
+                margin-right: 5px;
+                padding: 5px;
+            }
 
-        .condition button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+            .condition button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 5px 10px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
 
-        .condition button:hover {
-            background-color: #45a049;
-        }
+            .condition button:hover {
+                background-color: #45a049;
+            }
 
-        .logic-buttons {
-            margin-top: 10px;
-        }
+            .submit-button {
+                margin-top: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
 
-        .logic-buttons button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 0 5px;
-        }
+            .submit-button:hover {
+                background-color: #45a049;
+            }
+        </style>
+    </head>
 
-        .logic-buttons button:hover {
-            background-color: #45a049;
-        }
+    <body>
+        <h1>Filter Data</h1>
+        <form id="filterForm">
+            <div id="conditions">
+                <!-- Initial condition template -->
+                <div class="condition">
+                    <select name="field">
+                        <option value="id">ID</option>
+                        <option value="status">Status</option>
+                        <option value="assignee">Assignee</option>
+                        <option value="auditDate">Audit Date</option>
+                        <option value="location">Location</option>
+                        <option value="changelog">Changelog</option>
+                        <option value="assetDescription">Asset Description</option>
+                    </select>
+                    <select name="operator">
+                        <option value="EQUAL">Equal</option>
+                        <option value="LESS_THAN">Less Than</option>
+                        <option value="LESS_THAN_EQUAL">Less Than Equal</option>
+                        <option value="GREATER_THAN">Greater Than</option>
+                        <option value="GREATER_THAN_EQUAL">Greater Than Equal</option>
+                    </select>
+                    <input type="text" name="value">
+                    <button type="button" onclick="removeCondition(this)">Remove</button>
+                </div>
+            </div>
+            <button type="button" onclick="addCondition()">Add Condition</button>
+            <button type="submit" class="submit-button">Apply Filter</button>
+        </form>
 
-        .submit-button {
-            margin-top: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        <div id="response"></div>
 
-        .submit-button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-<h1>Filter Data</h1>
-<form id="filterForm">
-    <div id="conditions">
-        <!-- Initial condition template -->
-        <div class="condition">
-            <select name="field">
-                <option value="id">ID</option>
-                <option value="status">Status</option>
-                <option value="assignee">Assignee</option>
-                <option value="auditDate">Audit Date</option>
-                <option value="location">Location</option>
-                <option value="changelog">Changelog</option>
-                <option value="assetDescription">Asset Description</option>
-            </select>
-            <select name="operator">
-                <option value="EQUAL">Equal</option>
-                <option value="LESS_THAN">Less Than</option>
-                <option value="LESS_THAN_EQUAL">Less Than Equal</option>
-                <option value="GREATER_THAN">Greater Than</option>
-                <option value="GREATER_THAN_EQUAL">Greater Than Equal</option>
-            </select>
-            <input type="text" name="value">
-        </div>
-    </div>
-    <button type="button" onclick="addButtonCondition()">Add Condition</button>
-    <button type="button" onclick="addAndFilter()">Add AND Filter</button>
-    <button type="button" onclick="addOrFilter()">Add OR Filter</button>
-    <button type="submit">Apply Filter</button>
-</form>
+        <script>
+            function addCondition() {
+                const conditionDiv = createConditionTemplate();
+                document.getElementById("conditions").appendChild(conditionDiv);
+            }
 
-<div id="response"></div>
+            function removeCondition(button) {
+                const conditionDiv = button.parentElement;
+                conditionDiv.remove();
+            }
 
-<script>
-    function addButtonCondition(){
-        const andFilterDiv =document.getElementById("conditions")
-        const conditionDiv = document.querySelector(".condition").cloneNode(true);
-        conditionDiv.innerHTML += `
-            <button type="button" onclick="removeFilter(this)">Remove</button>
-        `;
-        andFilterDiv.appendChild(conditionDiv);
+            function createConditionTemplate() {
+                const conditionDiv = document.createElement("div");
+                conditionDiv.classList.add("condition");
+                conditionDiv.innerHTML = `
+                <select name="field">
+                    <option value="id">ID</option>
+                    <option value="status">Status</option>
+                    <option value="assignee">Assignee</option>
+                    <option value="auditDate">Audit Date</option>
+                    <option value="location">Location</option>
+                    <option value="changelog">Changelog</option>
+                    <option value="assetDescription">Asset Description</option>
+                </select>
+                <select name="operator">
+                    <option value="EQUAL">Equal</option>
+                    <option value="LESS_THAN">Less Than</option>
+                    <option value="LESS_THAN_EQUAL">Less Than Equal</option>
+                    <option value="GREATER_THAN">Greater Than</option>
+                    <option value="GREATER_THAN_EQUAL">Greater Than Equal</option>
+                </select>
+                <input type="text" name="value">
+                <button type="button" onclick="removeCondition(this)">Remove</button>
+            `;
+                return conditionDiv;
+            }
 
-    }
-    function addCondition(parent) {
-        const conditionDiv = createConditionTemplate();
-        parent.appendChild(conditionDiv);
-    }
+            document.getElementById("filterForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
 
-    function addAndFilter() {
-        const andFilterDiv = document.createElement("div");
-        andFilterDiv.classList.add("andFilter");
-        andFilterDiv.innerHTML = `
-            <h3>AND Filter</h3>
-            <button type="button" onclick="removeFilter(this)">Remove Filter</button>
-        `;
-        addCondition(andFilterDiv);
-        document.getElementById("conditions").appendChild(andFilterDiv);
-    }
+                const conditions = [];
 
-    function addOrFilter() {
-        const orFilterDiv = document.createElement("div");
-        orFilterDiv.classList.add("orFilter");
-        orFilterDiv.innerHTML = `
-            <h3>OR Filter</h3>
-            <button type="button" onclick="removeFilter(this)">Remove Filter</button>
-        `;
-        addCondition(orFilterDiv);
-        document.getElementById("conditions").appendChild(orFilterDiv);
-    }
+                // Convert each condition to an object and add it to the list
+                const conditionDivs = document.querySelectorAll(".condition");
+                conditionDivs.forEach(conditionDiv => {
+                    const field = conditionDiv.querySelector("select[name='field']").value;
+                    const operator = conditionDiv.querySelector("select[name='operator']").value;
+                    const value = conditionDiv.querySelector("input[name='value']").value;
+                    conditions.push({ field, operator, value });
+                });
 
-    function removeFilter(button) {
-        const filterDiv = button.parentElement;
-        filterDiv.remove();
-    }
-
-    function createConditionTemplate() {
-        const conditionDiv = document.createElement("div");
-        conditionDiv.classList.add("condition");
-        conditionDiv.innerHTML = `
-            <select name="field">
-                <option value="id">ID</option>
-                <option value="status">Status</option>
-                <option value="assignee">Assignee</option>
-                <option value="auditDate">Audit Date</option>
-                <option value="location">Location</option>
-                <option value="changelog">Changelog</option>
-                <option value="assetDescription">Asset Description</option>
-            </select>
-            <select name="operator">
-                <option value="EQUAL">Equal</option>
-                <option value="LESS_THAN">Less Than</option>
-                <option value="LESS_THAN_EQUAL">Less Than Equal</option>
-                <option value="GREATER_THAN">Greater Than</option>
-                <option value="GREATER_THAN_EQUAL">Greater Than Equal</option>
-            </select>
-            <input type="text" name="value">
-            <button type="button" onclick="removeCondition(this)">Remove</button>
-        `;
-        return conditionDiv;
-    }
-
-    function removeCondition(button) {
-        const conditionDiv = button.parentElement;
-        conditionDiv.remove();
-    }
-
-    document.getElementById("filterForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const formData = new FormData(this); // Get form data
-        const conditions = [];
-
-        // Convert each condition to an object and add it to the list
-        const conditionDivs = document.querySelectorAll(".condition");
-        conditionDivs.forEach(conditionDiv => {
-            const field = conditionDiv.querySelector("select[name='field']").value;
-            const operator = conditionDiv.querySelector("select[name='operator']").value;
-            const value = conditionDiv.querySelector("input[name='value']").value;
-            conditions.push({ field, operator, value });
-        });
-
-        // Convert the conditions list to a JSON string and set it to FormData
-        formData.set("conditions", JSON.stringify(conditions));
-
-        fetch("/filter", {
-            method: "POST",
-            body: formData
-        })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("response").innerText = data; // Display server response on the page
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                // Send the filter conditions as JSON data
+                fetch("/filters", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ conditions: conditions })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        displayFilteredAssets(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             });
-    });
-</script>
 
-</body>
+            function displayFilteredAssets(data) {
+                const responseDiv = document.getElementById("response");
+                responseDiv.innerHTML = ""; // Clear previous response
+
+                if (data.length === 0) {
+                    responseDiv.innerText = "No assets found matching the filter criteria.";
+                    return;
+                }
+
+                const assetList = document.createElement("ul");
+                data.forEach(asset => {
+                    const listItem = document.createElement("li");
+                    listItem.innerText = `ID: ${asset.id}, Description: ${asset.description}`;
+                    assetList.appendChild(listItem);
+                });
+
+                responseDiv.appendChild(assetList);
+            }
+        </script>
+
+    </body>
+
 </html>
