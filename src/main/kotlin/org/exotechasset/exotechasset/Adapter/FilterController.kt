@@ -52,7 +52,16 @@ class FilterController {
 
     @GetMapping("/filters/assets")
     public fun getFilterAsset(): String {
-        // TODO: filterAsset()
-        return ""
+        val response: JSONObject = JSONObject()
+        val iterator: AssetIterator = this.filterChain.filterAsset()
+.createIterator()
+        while (iterator.hasNext()) {
+            iterator.next()
+            val asset: Asset = iterator.getValue()!!
+
+            val assetJsonObject: JSONObject = AssetDto(asset).toJSONObject()
+            response.put(asset.getId(), assetJsonObject)
+        }
+        return response.toString()
     }
 }

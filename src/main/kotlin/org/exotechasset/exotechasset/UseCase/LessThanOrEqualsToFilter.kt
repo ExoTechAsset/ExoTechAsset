@@ -3,8 +3,7 @@ package org.exotechasset.exotechasset.usecase
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.Filter
 
-class LessThanOrEqualsToFilter(filterParameterList: List<FilterParameter>) :
-        Filter, FilterCRDFilterParameter {
+class LessThanOrEqualsToFilter(filterParameterList: List<FilterParameter>) : Filter(), FilterCRDFilterParameter {
     private val MAX_FILTER_PARAMETER_SIZE: Int = 2
     private val filterParameterList: MutableList<FilterParameter> =
             filterParameterList.toMutableList()
@@ -13,7 +12,7 @@ class LessThanOrEqualsToFilter(filterParameterList: List<FilterParameter>) :
 
     override public fun meet(assetList: List<Asset>): List<Asset> {
         require(this.filterParameterList.size == this.MAX_FILTER_PARAMETER_SIZE)
-        val param1:FilterParameter = this.filterParameterList[0]
+        val param1: FilterParameter = this.filterParameterList[0]
         val param2: FilterParameter = this.filterParameterList[1]
 
         var result: MutableList<Asset> = mutableListOf()
@@ -24,8 +23,8 @@ class LessThanOrEqualsToFilter(filterParameterList: List<FilterParameter>) :
                 continue
             }
 
-            val num1:Long = get1
-            val num2:Long = get2
+            val num1: Long = get1
+            val num2: Long = get2
             if (num1 <= num2) {
                 result.add(asset)
             }

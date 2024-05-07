@@ -3,8 +3,7 @@ package org.exotechasset.exotechasset.usecase
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.Filter
 
-class GreaterThanFilter(filterParameterList: List<FilterParameter>) :
-        Filter, FilterCRDFilterParameter {
+class GreaterThanFilter(filterParameterList: List<FilterParameter>) : Filter(), FilterCRDFilterParameter {
     private val MAX_FILTER_PARAMETER_SIZE: Int = 2
     private val filterParameterList: MutableList<FilterParameter> =
             filterParameterList.toMutableList()

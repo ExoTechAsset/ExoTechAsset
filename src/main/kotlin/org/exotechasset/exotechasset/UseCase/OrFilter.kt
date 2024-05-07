@@ -3,7 +3,7 @@ package org.exotechasset.exotechasset.usecase
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.Filter
 
-class OrFilter(filterList:List<Filter>) : Filter, FilterCRDFilter {
+class OrFilter(filterList: List<Filter>) : Filter(), FilterCRDFilter {
     private val filterList: MutableList<Filter> = filterList.toMutableList()
 
     constructor() : this(emptyList())
@@ -19,6 +19,8 @@ class OrFilter(filterList:List<Filter>) : Filter, FilterCRDFilter {
     override public fun addFilter(filter: Filter) {
         this.filterList.add(filter)
     }
+
+    override public fun getFilters(): List<Filter> = this.filterList.toList()
 
     override public fun getFilter(index: Int): Filter = this.filterList.get(index)
 

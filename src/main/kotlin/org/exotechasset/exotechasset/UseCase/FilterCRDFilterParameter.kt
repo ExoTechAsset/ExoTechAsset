@@ -10,4 +10,5 @@ interface FilterCRDFilterParameter {
     public fun addFilterParameter(filterParameter: FilterParameter)
     public fun getFilterParameter(index: Int): FilterParameter
     public fun removeFilterParameter(index: Int)
+    public fun createIterator(): FilterIterator = FilterIterator(this)
 }

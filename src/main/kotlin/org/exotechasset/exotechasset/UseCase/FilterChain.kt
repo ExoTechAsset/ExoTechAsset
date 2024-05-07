@@ -6,8 +6,64 @@ class FilterChain(assetList: AssetList) {
     private val assetList: AssetList = assetList
     private var filterList: MutableSet<Filter> = mutableSetOf()
 
-    public fun addFilter(filter: Filter) {
-        this.filterList.add(filter)
+    public fun addFilter(filterType: FilterType, parentIndex: Int? = null): Int? {
+        val filter: Filter = FilterFactory().create(filterType)
+        this.addFilter(filter, parentIndex)
+        val newFilterIndex = filter.id
+        if (this.getFilter(newFilterIndex) == null) {
+            return null
+        }
+        return newFilterIndex
+    }
+
+    public fun addFilter(filter: Filter, parentIndex: Int? = null) {
+        if (parentIndex == null) {
+            this.filterList.add(filter)
+        } else {
+            val parentFilter:Filter? = this.getFilter(parentIndex)
+            if (parentFilter is FilterCRDFilter) {
+                parentFilter.addFilter(filter)
+            }
+        }
+    }
+
+    public fun getFilter(index: Int): Filter? {
+        for (rootFilter in this.filterList) {
+            val filterIterator: FilterIterator = FilterHierarchyIterator(rootFilter)
+            while (filterIterator.hasNext()) {
+                filterIterator.next()
+                val filter:Filter = filterIterator.getValue()
+                if (filter.id == index) {
+                    return filter
+                }
+            }
+        }
+        return null
+    }
+
+    public fun removeFilter(index: Int) {
+        for (rootFilter in this.filterList) {
+            if (rootFilter.id == index) {
+                this.filterList.remove(rootFilter)
+                return
+            }
+            val filterIterator: FilterHierarchyIterator = FilterHierarchyIterator(rootFilter)
+            while (filterIterator.hasNext()) {
+                filterIterator.next()
+                val filter:Filter = filterIterator.getValue()
+                if (filter.id != index) {
+                    continue
+                }
+                // filter.id == index
+                val parent:FilterCRDFilter? = filterIterator.getParent()
+                if (parent == null) {
+                    this.filterList.remove(rootFilter)
+                } else {
+                    parent?.removeFilter(index)
+                }
+                return
+            }
+        }
     }
 
     public fun filterAsset(): AssetList {
