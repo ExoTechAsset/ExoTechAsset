@@ -1,6 +1,12 @@
 package org.exotechasset.exotechasset.usecase
 
-enum class FilterIteratorType {
-    HIERARCHY_FILTER_ITERATOR,
-    SIMPLE_FILTER_ITERATOR,
+import org.exotechasset.exotechasset.entity.ToStringInterface
+
+enum class FilterIteratorType : ToStringInterface {
+    HIERARCHY_FILTER_ITERATOR {
+        override public fun toString(): String = "Hierarchy"
+    },
+    SIMPLE_FILTER_ITERATOR {
+        override public fun toString(): String = "Simple"
+    },
 }

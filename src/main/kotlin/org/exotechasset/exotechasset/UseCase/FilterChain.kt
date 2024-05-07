@@ -6,17 +6,13 @@ class FilterChain(assetList: AssetList) {
     private val assetList: AssetList = assetList
     private var filterList: MutableSet<Filter> = mutableSetOf()
 
-    public fun addFilter(filterType: FilterType, parentIndex: Int? = null): Int? {
+    public fun addFilter(filterType: FilterType, parentIndex: Int? = null): Filter {
         val filter: Filter = FilterFactory().create(filterType)
         this.addFilter(filter, parentIndex)
-        val newFilterIndex = filter.id
-        if (this.getFilter(newFilterIndex) == null) {
-            return null
-        }
-        return newFilterIndex
+        return filter
     }
 
-    public fun addFilter(filter: Filter, parentIndex: Int? = null) {
+    public fun addFilter(filter: Filter, parentIndex: Int? = null): Filter {
         if (parentIndex == null) {
             this.filterList.add(filter)
         } else {
@@ -25,6 +21,7 @@ class FilterChain(assetList: AssetList) {
                 parentFilter.addFilter(filter)
             }
         }
+        return filter
     }
 
     public fun getFilter(index: Int): Filter? {
@@ -59,7 +56,7 @@ class FilterChain(assetList: AssetList) {
                 if (parent == null) {
                     this.filterList.remove(rootFilter)
                 } else {
-                    parent?.removeFilter(index)
+                    parent.removeFilter(index)
                 }
                 return
             }

@@ -2,7 +2,7 @@ package org.exotechasset.exotechasset.usecase
 
 import org.exotechasset.exotechasset.entity.Asset
 
-class FilterParameter(val by: FilterParameterBy, val value: Any?) {
+data class FilterParameter(val by: FilterParameterBy, val value: Any?) {
     public fun get(asset: Asset): Any? =
             when (this.by) {
                 FilterParameterBy.VALUE -> value

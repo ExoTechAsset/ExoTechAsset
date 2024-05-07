@@ -13,5 +13,7 @@ interface FilterCRDFilter {
     public fun getFilter(index: Int): Filter
     public fun getFilters(): List<Filter>
     public fun removeFilter(index: Int)
-    public fun createIterator(): FilterIterator = FilterIterator(this)
+    public fun createIterator(
+            filterIteratorType: FilterIteratorType = FilterIteratorType.HIERARCHY_FILTER_ITERATOR
+    ): FilterIterator = FilterIteratorFactory(this as Filter).create(filterIteratorType)
 }

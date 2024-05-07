@@ -12,5 +12,19 @@ abstract class Filter {
         currentMaxId += 1
     }
 
+    constructor(id: Int) {
+        this.id = id
+    }
+
+    constructor(id: Int? = null) {
+        if (id == null) {
+            this.id = currentMaxId
+            currentMaxId += 1
+        } else {
+            this.id = id
+        }
+    }
+
+
     open public fun meet(assetList: List<Asset>): List<Asset> = assetList
 }

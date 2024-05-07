@@ -30,5 +30,5 @@ open class FilterIterator {
 
     public open fun hasNext() = this.filterIterator.hasNext()
 
-    public open fun getValue() = this.filter
+    public open fun getValue():Filter = this.filter
 }

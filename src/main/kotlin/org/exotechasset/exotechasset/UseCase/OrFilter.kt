@@ -3,10 +3,11 @@ package org.exotechasset.exotechasset.usecase
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.Filter
 
-class OrFilter(filterList: List<Filter>) : Filter(), FilterCRDFilter {
+class OrFilter(filterList: List<Filter>, id: Int? = null) : Filter(id), FilterCRDFilter {
     private val filterList: MutableList<Filter> = filterList.toMutableList()
 
     constructor() : this(emptyList())
+    constructor(id: Int? = null) : this(emptyList(), id)
 
     override public fun meet(assetList: List<Asset>): List<Asset> {
         var result: MutableSet<Asset> = mutableSetOf()
