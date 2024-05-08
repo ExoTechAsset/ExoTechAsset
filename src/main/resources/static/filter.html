@@ -6,8 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ExoTechAsset Management System</title>
         <style>
-            /* Add your CSS styles here */
-            /* This is just a placeholder */
             body {
                 font-family: Arial, sans-serif;
                 margin: 0;
@@ -90,18 +88,18 @@
                         <option value="assetDescription">Asset Description</option>
                     </select>
                     <select name="operator">
-                        <option value="EQUAL">Equal</option>
-                        <option value="LESS_THAN">Less Than</option>
-                        <option value="LESS_THAN_EQUAL">Less Than Equal</option>
-                        <option value="GREATER_THAN">Greater Than</option>
-                        <option value="GREATER_THAN_EQUAL">Greater Than Equal</option>
+                        <option value="EqualsTo">EqualsTo</option>
+                        <option value="LessThan">LessThan</option>
+                        <option value="LessThanOrEqualsTo">LessThanOrEqualsTo</option>
+                        <option value="GreaterThan">GreaterThan</option>
+                        <option value="GreaterThanOrEqualsTo">GreaterThanOrEqualsTo</option>
                     </select>
                     <input type="text" name="value">
                     <button type="button" onclick="removeCondition(this)">Remove</button>
                 </div>
             </div>
             <button type="button" onclick="addCondition()">Add Condition</button>
-            <button type="submit" class="submit-button">Apply Filter</button>
+            <button type="submit" onclick="applyFilter()">Apply Filter</button>
         </form>
 
         <div id="response"></div>
@@ -131,11 +129,11 @@
                     <option value="assetDescription">Asset Description</option>
                 </select>
                 <select name="operator">
-                    <option value="EQUAL">Equal</option>
-                    <option value="LESS_THAN">Less Than</option>
-                    <option value="LESS_THAN_EQUAL">Less Than Equal</option>
-                    <option value="GREATER_THAN">Greater Than</option>
-                    <option value="GREATER_THAN_EQUAL">Greater Than Equal</option>
+                    <option value="EqualsTo">EqualsTo</option>
+                    <option value="LessThan">LessThan</option>
+                    <option value="LessThanOrEqualsTo">LessThanOrEqualsTo</option>
+                    <option value="GreaterThan">GreaterThan</option>
+                    <option value="GreaterThanOrEqualsTo">GreaterThanOrEqualsTo</option>
                 </select>
                 <input type="text" name="value">
                 <button type="button" onclick="removeCondition(this)">Remove</button>
@@ -143,27 +141,19 @@
                 return conditionDiv;
             }
 
-            document.getElementById("filterForm").addEventListener("submit", function (event) {
-                event.preventDefault(); // Prevent default form submission
-
+            function applyFilter() {
+                const formData = new FormData(document.getElementById("filterForm"));
                 const conditions = [];
-
-                // Convert each condition to an object and add it to the list
-                const conditionDivs = document.querySelectorAll(".condition");
-                conditionDivs.forEach(conditionDiv => {
-                    const field = conditionDiv.querySelector("select[name='field']").value;
-                    const operator = conditionDiv.querySelector("select[name='operator']").value;
-                    const value = conditionDiv.querySelector("input[name='value']").value;
-                    conditions.push({ field, operator, value });
+                formData.forEach((value, key) => {
+                    conditions.push({ field: key, operator: value });
                 });
 
-                // Send the filter conditions as JSON data
                 fetch("/filters", {
                     method: "POST",
+                    body: JSON.stringify(conditions),
                     headers: {
                         "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ conditions: conditions })
+                    }
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -172,7 +162,7 @@
                     .catch(error => {
                         console.error('Error:', error);
                     });
-            });
+            }
 
             function displayFilteredAssets(data) {
                 const responseDiv = document.getElementById("response");

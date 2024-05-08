@@ -71,6 +71,10 @@ class FilterChain(assetList: AssetList) {
         }
     }
 
+    public fun clearFilter() {
+        this.filterList.clear()
+    }
+
     public fun filterAsset(): AssetList {
         var filteredAssetList = assetList.getChildren()
         for (filter in this.filterList) {
