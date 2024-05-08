@@ -4,10 +4,16 @@ import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.Filter
 
 class AndFilter(filterList: List<Filter>, id: Int? = null) : Filter(id), FilterCRDFilter {
-    private val filterList: MutableList<Filter> = filterList.toMutableList()
+    private var filterList: MutableList<Filter> = filterList.toMutableList()
 
     constructor() : this(emptyList())
     constructor(id: Int? = null) : this(emptyList(), id)
+
+    override public fun modify(filter: Filter) {
+        require(filter is AndFilter)
+        this.filterList = filter.filterList.toList().toMutableList()
+        check(this.filterList.equals(filter.filterList))
+    }
 
     override public fun meet(assetList: List<Asset>): List<Asset> {
         var result: List<Asset> = assetList

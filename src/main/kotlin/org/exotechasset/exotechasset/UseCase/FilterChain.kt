@@ -24,6 +24,14 @@ class FilterChain(assetList: AssetList) {
         return filter
     }
 
+    public fun modifyFilter(filter: Filter): Boolean {
+        val targetFilter:Filter? = this.getFilter(filter.id)
+        if (targetFilter == null) {
+            return false
+        }
+        return true
+    }
+
     public fun getFilter(index: Int): Filter? {
         for (rootFilter in this.filterList) {
             val filterIterator: FilterIterator = FilterHierarchyIterator(rootFilter)

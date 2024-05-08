@@ -5,11 +5,17 @@ import org.exotechasset.exotechasset.entity.Filter
 
 class LessThanOrEqualsToFilter(filterParameterList: List<FilterParameter>, id: Int? = null) : Filter(id), FilterCRDFilterParameter {
     private val MAX_FILTER_PARAMETER_SIZE: Int = 2
-    private val filterParameterList: MutableList<FilterParameter> =
+    private var filterParameterList: MutableList<FilterParameter> =
             filterParameterList.toMutableList()
 
     constructor() : this(emptyList())
     constructor(id: Int? = null) : this(emptyList(), id)
+
+    override public fun modify(filter: Filter) {
+        require(filter is LessThanOrEqualsToFilter)
+        this.filterParameterList = filter.filterParameterList.toList().toMutableList()
+        check(this.filterParameterList.equals(filter.filterParameterList))
+    }
 
     override public fun meet(assetList: List<Asset>): List<Asset> {
         require(this.filterParameterList.size == this.MAX_FILTER_PARAMETER_SIZE)

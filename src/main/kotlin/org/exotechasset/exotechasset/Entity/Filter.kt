@@ -24,7 +24,10 @@ abstract class Filter {
             this.id = id
         }
     }
-
+    
+    public open fun modify(filter: Filter) {
+        require(this.id == filter.id)
+    }
 
     open public fun meet(assetList: List<Asset>): List<Asset> = assetList
 }

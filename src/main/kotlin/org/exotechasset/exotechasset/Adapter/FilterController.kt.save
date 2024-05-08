@@ -6,12 +6,11 @@ import org.exotechasset.exotechasset.usecase.AssetIterator
 import org.exotechasset.exotechasset.usecase.AssetList
 import org.exotechasset.exotechasset.usecase.FilterChain
 import org.json.JSONObject
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -30,7 +29,7 @@ class FilterController {
 
     @PostMapping("/filters")
     fun addFilter(@RequestBody filterDto: FilterDto) {
-        val filter: Filter = filterDto.toFilter()
+        val filter:Filter = filterDto.toFilter()
         this.filterChain.addFilter(filter)
     }
 
@@ -53,8 +52,14 @@ class FilterController {
         return response.toString()
     }
 
-    @PutMapping("/filters")
-    fun modifyFilter(@RequestBody filterDto: FilterDto) {
-        this.filterChain.modifyFilter(filterDto.toFilter())
+    @PutMapping("/filters/{id}")
+    fun modifyFilter(@PathVariable(value = "id") id: String, @RequestBody assetD>
+        val updated = assetDto.toAsset()
+        try {
+            this.assetList.modifyAsset(updatedAsset)
+        }
+        catch(exception: IllegalArgumentException) {
+            // TODO
+        }
     }
 }
