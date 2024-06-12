@@ -14,7 +14,7 @@ class LessThanOrEqualsToFilter(field: FilterField, value: Any) : Filter(field, v
                 continue
             }
             // value
-            var valueNumber:Long? = null
+            var valueNumber:Long
             if (value is String) {
                 valueNumber = value.toLong()
             } else if (value is Number) {
@@ -22,7 +22,7 @@ class LessThanOrEqualsToFilter(field: FilterField, value: Any) : Filter(field, v
             } else {
                 continue
             }
-            if (assetValue!! <= valueNumber!!) {
+            if (assetValue <= valueNumber) {
                 result.add(asset)
             }
         }

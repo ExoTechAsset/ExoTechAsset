@@ -14,7 +14,6 @@ class FilterFactory() {
                                 FilterType.LESS_THAN -> LessThanFilter(field, value)
                                 FilterType.LESS_THAN_OR_EQUALS_TO ->
                                                 LessThanOrEqualsToFilter(field, value)
-                                else -> throw IllegalArgumentException("Invalid filter type")
                         }
 
         public fun createWithStr(type: String, field: String, value: String): Filter = this.create(FilterType.of(type), FilterField.of(field), value as Any)

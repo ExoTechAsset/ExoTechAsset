@@ -16,7 +16,7 @@ internal class EqualsToFilterTest {
 
     @Test
     fun testMeet() {
-        val filter = EqualsToFilter(FilterField.ID, "AS-01" as Comparable<Any>)
+        val filter = EqualsToFilter(FilterField.ID, "AS-01")
         val filteredAssets = filter.meet(assetList)
 
         assertEquals(listOf(assetList[0]), filteredAssets)
