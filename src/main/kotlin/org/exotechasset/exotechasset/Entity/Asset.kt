@@ -12,7 +12,8 @@ open class Asset(
         private var auditDate: Date? = null,
         private var location: Location? = null,
         private var changelog: Changelog = Changelog(),
-        private var description: String = ""
+        private var description: String = "",
+        private var parentId: String? = null
 ) {
 
     constructor(
@@ -59,6 +60,11 @@ open class Asset(
     public open fun hasChildren(): Boolean = false
     public open fun getChildrenIdList(): List<String> = emptyList()
     public open fun getChildren(): List<Asset> = emptyList()
+
+    public open fun getParentId(): String? = this.parentId
+    public open fun setParentId (parentId:String?) {
+        this.parentId = parentId
+    }
 
     public open fun modify(asset: Asset) {
         require(this.id == asset.id)

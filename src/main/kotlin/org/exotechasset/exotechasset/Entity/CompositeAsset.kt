@@ -19,6 +19,7 @@ class CompositeAsset(
 
     public override fun addChild(asset: Asset) {
         val newAssetId: String = asset.getId()
+        asset.setParentId(this.getId())
         this.children.put(newAssetId, asset)
 
         check(asset == this.children.get(newAssetId))
