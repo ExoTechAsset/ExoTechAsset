@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Assets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .export-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .export-btn input[type="text"] {
+            margin-right: 10px;
+        }
+
+        .export-btn button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .export-btn button:hover {
+            background-color: #45a049;
+        }
+        .form-group {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .form-group label {
+            margin-right: 10px;
+        }
+
+        .form-group input[type="text"] {
+            display: inline-block;
+            padding: 5px;
+            width: 300px;
+        }
+
+        .form-group button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            background-color: #f44336;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Export Assets</h1>
+    <div id="allAssets"></div>
+    <div class="form-group">
+<!--        <input type="text" id="folderPath" placeholder="Selected folder path will appear here" >-->
+        <input type="text" id="fileName" placeholder="Enter file name (with .csv extension)">
+<!--        <button onclick="selectFolder()">Select Folder</button>-->
+        <button onclick="exportAssets()">Export</button>
+        <button class="back-button" onclick="goToIndex()">Back</button>
+    </div>
+
+</div>
+
+<script>
+    // Function to fetch and display assets
+    function fetchAssets() {
+        fetch('/assets')
+            .then(response => response.json())
+            .then(data => {
+                const assets = Object.values(data).sort((a, b) => a.id.localeCompare(b.id));
+                const assetsContainer = document.getElementById('allAssets');
+                assetsContainer.innerHTML = `
+                        <h2>Asset List</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Status</th>
+                                    <th>Assignee</th>
+                                    <th>Audit Date</th>
+                                    <th>Location</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${assets.map(asset => `
+                                    <tr>
+                                        <td>${asset.id}</td>
+                                        <td>${asset.status}</td>
+                                        <td>${asset.assignee !== null ? asset.assignee : ''}</td>
+                                        <td>${asset.auditDate !== null ? asset.auditDate : ''}</td>
+                                        <td>${asset.location !== null ? asset.location : ''}</td>
+                                        <td>${asset.description !== null ? asset.description : ''}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+            })
+            .catch(error => console.error('Error fetching assets:', error));
+    }
+
+    // TODO:Function to select folder
+    // function selectFolder() {
+    //     alert('This feature is not available in the browser. ')
+        // window.require = require;
+        // const { dialog } = require('electron').remote;
+        //
+        // dialog.showOpenDialog({ properties: ['openDirectory'] })
+        //     .then(result => {
+        //         const folderPath = result.filePaths[0];
+        //         const correctedFolderPath = folderPath.endsWith('\\') ? folderPath : folderPath + '\\';
+        //         document.getElementById('folderPath').value = correctedFolderPath;
+        //     })
+        //     .catch(err => {
+        //         console.error('Error selecting folder:', err);
+        //         alert('Error selecting folder');
+        //     });
+    // }
+
+
+    // Function to export assets
+    function exportAssets() {
+        // const folderPath = document.getElementById('folderPath').value;
+        // if (!folderPath) {
+        //     alert('Please select a folder');
+        //     return;
+        // }
+
+        const fileName = document.getElementById('fileName').value;
+        if (!fileName || !fileName.endsWith('.csv')) {
+            alert('Please enter a valid file name with .csv extension');
+            return;
+        }
+        // const correctFolderPath = folderPath.endsWith('\\') ? folderPath : folderPath + '\\';
+        const path =  fileName;
+        console.log(path);
+        fetch('/export-assets', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ filePath: path })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Assets exported successfully');
+                    console.log(response.text())
+                } else {
+                    console.error('Error exporting assets:', response.statusText);
+                    alert('Error exporting assets');
+                }
+            })
+            .catch(error => {
+                console.error('Error exporting assets:', error);
+                alert('Error exporting assets');
+            });
+    }
+
+    function goToIndex() {
+        window.location.href = '/index.html';
+    }
+    window.onload = fetchAssets;
+</script>
+</body>
+
+</html>

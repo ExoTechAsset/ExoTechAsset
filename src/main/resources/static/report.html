@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .report-type {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .report-type label {
+            margin-right: 5px;
+        }
+
+        .report-type select {
+            padding: 5px;
+        }
+
+        .generate-report-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .generate-report-btn button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .generate-report-btn button:hover {
+            background-color: #45a049;
+        }
+
+        .btn-container button.cancel {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #reportCanvas {
+            max-width: 100%;
+            margin: 20px auto;
+        }
+    </style>
+    <!-- 引入 Chart.js 庫 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Asset Management System</h1>
+    <div id="allAssets"></div>
+    <div class="report-type">
+        <label for="selectedMetric">Select Metric:</label>
+        <select id="selectedMetric" multiple>
+            <option value="id">ID</option>
+            <option value="status">Status</option>
+            <option value="assignee">Assignee</option>
+            <option value="auditDate">Audit Date</option>
+            <option value="location">Location</option>
+        </select>
+    </div>
+    <div class="report-type">
+        <label for="reportType">Select Report Type:</label>
+        <select id="reportType" onchange="updateMetricSelection()">
+            <option value="table">Table</option>
+            <option value="barChart">Bar Chart</option>
+            <option value="pieChart">Pie Chart</option>
+        </select>
+    </div>
+
+    <div class="generate-report-btn">
+        <button onclick="generateReport()">Generate Report</button>
+        <button onclick="swapAxes()">Swap Axes</button>
+        <button type="button" class="cancel" onclick="cancelAddition()">back</button>
+    </div>
+
+    <div id="reportContainer">
+        <!-- 這裡將顯示表格或圖表 -->
+        <canvas id="reportCanvas"></canvas>
+    </div>
+</div>
+
+<script>
+    // Function to cancel addition
+    function cancelAddition() {
+        // Redirect back to asset list page without adding new asset
+        window.location.href = '/index.html';
+    }
+
+    // Function to fetch all assets and display
+    function fetchAndDisplayAssets() {
+        fetch('/assets')
+            .then(response => response.json())
+            .then(data => {
+                const assetsContainer = document.getElementById('allAssets');
+                assetsContainer.innerHTML = `
+                    <h2>Asset Management</h2>
+                    <table id="assetTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Assignee</th>
+                                <th>Audit Date</th>
+                                <th>Location</th>
+                                <th>Description</th> <!-- Added Description column -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.values(data).map(asset => `
+                                <tr>
+                                    <td>${asset.id}</td>
+                                    <td>${asset.status}</td>
+                                    <td>${asset.assignee !== null ? asset.assignee : ''}</td>
+                                    <td>${asset.auditDate !== null ? asset.auditDate : ''}</td>
+                                    <td>${asset.location !== null ? asset.location : ''}</td>
+                                    <td>${asset.description !== null ? asset.description : ''}</td> <!-- Added Description value -->
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            })
+            .catch(error => console.error('Error fetching assets:', error));
+    }
+
+    // Function to update metric selection based on report type
+    function updateMetricSelection() {
+        const reportType = document.getElementById('reportType').value;
+        const selectedMetric = document.getElementById('selectedMetric');
+
+        if (reportType === 'pieChart') {
+            selectedMetric.multiple = false;
+        } else {
+            selectedMetric.multiple = true;
+        }
+    }
+
+    // Function to check if the selected metrics are valid for a bar chart
+    function checkBarVaild(){
+        const reportType = document.getElementById('reportType').value;
+        const selectedMetric = document.getElementById('selectedMetric');
+        if (reportType === 'barChart' && (selectedMetric.selectedOptions.length !== 2)) {
+            alert('You must select two metrics for a bar chart.');
+            for (let i = 0; i < selectedMetric.options.length; i++) {
+                selectedMetric.options[i].selected = false;
+            }
+            throw new Error('Invalid selection for bar chart');
+        }
+    }
+
+    // Function to generate report
+    function generateReport() {
+        checkBarVaild()
+        const reportType = document.getElementById('reportType').value;
+        const selectedMetric = Array.from(document.getElementById('selectedMetric').selectedOptions).map(option => option.value);
+
+        let reportRequest;
+        if (reportType === 'barChart') {
+            if(selectedMetric.length !== 2) {
+                alert('You must select two metrics for a bar chart.');
+                return;
+            }
+            reportRequest = {
+                reportType: reportType,
+                metrics: {
+                    x: selectedMetric[0],
+                    y: selectedMetric[1]
+                }
+            };
+        } else {
+            reportRequest = {
+                reportType: reportType,
+                metrics: Object.fromEntries(selectedMetric.map(metric => [metric, true]))
+            };
+        }
+
+        fetch('/generate-report', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reportRequest)
+        })
+            .then(response => response.json())
+            .then(data => {
+                displayReport(reportType, data, selectedMetric[0],selectedMetric[1]); // Pass selected metrics
+            })
+            .catch(error => console.error('Error generating report:', error));
+    }
+
+    // Function to display report based on the report type and data
+    function displayReport(reportType, data, xAxisLabel, yAxisLabel) {
+        const reportContainer = document.getElementById('reportContainer');
+        let reportCanvas = document.getElementById('reportCanvas');
+
+        // Clear previous content
+        reportContainer.innerHTML = '<canvas id="reportCanvas"></canvas>';
+        reportCanvas = document.getElementById('reportCanvas');
+        const ctx = reportCanvas.getContext('2d');
+
+        if (reportType === 'table') {
+            // Display the data in a table
+            const tableHtml = `
+            <table>
+                <thead>
+                    <tr>
+                        ${Object.keys(data[0]).map(key => `<th>${key}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.map(row => `
+                        <tr>
+                            ${Object.values(row).map(value => `<td>${value}</td>`).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+            reportContainer.innerHTML = tableHtml;
+        } else {
+            // Display the data in a chart
+            const chartConfig = {
+                type: reportType === 'barChart' ? 'bar' : 'pie',
+                data: {
+                    labels: reportType === 'barChart' ? data.x : Object.keys(data), // Use keys of data for pie chart labels
+                    datasets: reportType === 'barChart' ? generateBarChartDatasets(data, xAxisLabel, yAxisLabel) : [{
+                        data: Object.values(data),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: reportType === 'barChart' ? {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    const uniqueYValues = Array.from(new Set(data.y)).sort();
+                                    const yCategories = uniqueYValues;
+                                    // 将分类标签映射到数值
+                                    const numericalYData = data.y.map(value => yCategories.indexOf(value) + 1);
+
+                                    // Convert value to category from data.y
+                                    console.log(value, data.y[value]);
+                                    return value === 0 ? '0' : data.y[value-1];
+                                }
+                            }
+                        }
+                    } : {}
+                }
+            };
+
+            new Chart(ctx, chartConfig);
+        }
+    }
+
+    // Function to generate bar chart datasets
+    function generateBarChartDatasets(data, xAxisLabel, yAxisLabel) {
+        // 自动生成 yCategories，去重并排序
+        const uniqueYValues = Array.from(new Set(data.y)).sort();
+        const yCategories = uniqueYValues;
+        // 将分类标签映射到数值
+        const numericalYData = data.y.map(value => yCategories.indexOf(value) + 1);
+        return [{
+            label: yAxisLabel,
+            data: numericalYData,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }];
+    }
+
+// Function to swap axes for bar chart
+    function swapAxes() {
+        const reportType = document.getElementById('reportType').value;
+        if (reportType !== 'barChart') {
+            alert('You can only swap axes for a bar chart.');
+            return;
+        }
+        const selectedMetric = document.getElementById('selectedMetric');
+        if (selectedMetric.selectedOptions.length !== 2) {
+            alert('You must select exactly two metrics to swap axes.');
+            return;
+        }
+
+        const temp = selectedMetric.selectedOptions[0].value;
+        selectedMetric.selectedOptions[0].value = selectedMetric.selectedOptions[1].value;
+        selectedMetric.selectedOptions[1].value = temp;
+        generateReport();
+    }
+
+    // Fetch and display assets when the page loads
+    fetchAndDisplayAssets();
+</script>
+</body>
+</html>
+

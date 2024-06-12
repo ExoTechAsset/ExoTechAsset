@@ -93,6 +93,40 @@
             .add-new-asset-btn button:hover {
                 background-color: #45a049;
             }
+
+            .generate-report-btn {
+                text-align: center;
+                margin-top: 20px;
+            }
+            .generate-report-btn button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .generate-report-btn button:hover {
+                background-color: #45a049;
+            }
+
+            .use-case-btn {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .use-case-btn button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .use-case-btn button:hover {
+                background-color: #45a049;
+            }
         </style>
     </head>
 
@@ -117,8 +151,15 @@
                     <option value="100000">100000</option>
                 </select>
             </div>
-            <div class="add-new-asset-btn">
+            <div class="use-case-btn">
                 <button onclick="addNewAsset()">Add Asset</button>
+            </div>
+            <div class="use-case-btn">
+                <button onclick="generateReport()">Generate Report</button>
+            </div>
+            <div class="use-case-btn">
+                <button onclick="importCsv()">Import</button>
+                <button onclick="exportCsv()">Export</button>
             </div>
         </div>
 
@@ -257,6 +298,18 @@
             // Function to add a new asset
             function addNewAsset() {
                 window.location.href = '/addAsset.html';
+            }
+            // Function to generate report
+            function generateReport() {
+                window.location.href = '/report.html';
+            }
+            // Function to import csv
+            function importCsv() {
+                window.location.href = '/import.html';
+            }
+            // Function to export csv
+            function exportCsv() {
+                window.location.href = '/export.html';
             }
 
             // Get all assets when the page loads
