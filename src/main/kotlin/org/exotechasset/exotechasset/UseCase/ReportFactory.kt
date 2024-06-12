@@ -9,7 +9,6 @@ class ReportFactory {
             ReportType.TABLE -> report = Table(metrics)
             ReportType.BAR -> report = BarChart(metrics)
             ReportType.PIE -> report = PieChart(metrics)
-            ReportType.CSV -> report = CsvVisitor()
         }
         return report
     }

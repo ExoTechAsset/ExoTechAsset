@@ -7,7 +7,7 @@ import org.exotechasset.exotechasset.usecase.AssetList
 
 class Importer(val assetHandler:AssetHandler) {
     private var builder: Builder = Builder()
-    val ATTRIBUTE_NAMES = listOf("id", "status", "assignee", "auditDate", "location", "changelog", "assetDescription", "parentId")
+    val ATTRIBUTE_NAMES = listOf("id", "status", "assignee", "auditDate", "location", "changelog", "description", "parentId")
 
     public fun import(assetListFile: AssetListFile):AssetList{
         val scannerFactory = ScannerFactory()

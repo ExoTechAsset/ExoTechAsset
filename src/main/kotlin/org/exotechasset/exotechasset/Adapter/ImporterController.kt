@@ -1,4 +1,4 @@
-package org.exotechasset.exotechasset.Adapter
+package org.exotechasset.exotechasset.adapter
 
 import org.exotechasset.exotechasset.adapter.ServiceController
 import org.exotechasset.exotechasset.usecase.AssetListFile
@@ -19,19 +19,19 @@ class ImporterController {
 
     // Existing methods...
 
-    @PostMapping("/import-assets")
-    fun importAssets(@RequestBody request: Map<String, String>): ResponseEntity<Map<String, Any>> {
-        return try {
-            val fileContent = request["fileContent"] ?: throw IllegalArgumentException("File content is required")
+    // @PostMapping("/import-assets")
+    // fun importAssets(@RequestBody request: Map<String, String>): ResponseEntity<Map<String, Any>> {
+    //     return try {
+    //         val fileContent = request["fileContent"] ?: throw IllegalArgumentException("File content is required")
 
-            val assetListFile = AssetListFile()
-            assetListFile.write(fileContent)
-            this.exporterImporterHandler.importFile(assetListFile)
+    //         val assetListFile = AssetListFile()
+    //         assetListFile.write(fileContent)
+    //         this.exporterImporterHandler.importFile(assetListFile)
 
-            ResponseEntity.ok(mapOf("success" to true))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mapOf("success" to false))
-        }
-    }
+    //         ResponseEntity.ok(mapOf("success" to true))
+    //     } catch (e: Exception) {
+    //         e.printStackTrace()
+    //         ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mapOf("success" to false))
+    //     }
+    // }
 }
