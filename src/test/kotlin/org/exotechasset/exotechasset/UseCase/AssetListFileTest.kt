@@ -1,6 +1,6 @@
 package org.exotechasset.exotechasset.usecase
 
-import org.exotechasset.exotechasset.useCase.AssetListFile
+import org.exotechasset.exotechasset.usecase.AssetListFile
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

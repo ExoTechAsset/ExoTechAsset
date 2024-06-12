@@ -2,7 +2,7 @@ package org.exotechasset.exotechasset.adapter
 
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.usecase.AssetIterator
-import org.exotechasset.exotechasset.usecase.AssetList
+import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.exotechasset.exotechasset.usecase.FilterChain
 import org.json.JSONArray
 import org.json.JSONObject
@@ -18,12 +18,12 @@ import org.springframework.http.ResponseEntity
 
 @RestController
 class AssetManagementController {
-    private val assetList: AssetList = ServiceController.assetList
+    private val assetHandler: AssetHandler = ServiceController.assetHandler
 
     @GetMapping("/assets")
     public fun getAssetIdList(): String {
         val response: JSONObject = JSONObject()
-        val iterator: AssetIterator = this.assetList.createIterator()
+        val iterator: AssetIterator = this.assetHandler.createIterator()
         while (iterator.hasNext()) {
             iterator.next()
             val asset: Asset = iterator.getValue()!!
@@ -35,7 +35,7 @@ class AssetManagementController {
     }
     @GetMapping("/assets/{id}")
     public fun getAsset(@PathVariable(value = "id") id: String): String {
-        val asset:Asset? = this.assetList.getAsset(id)
+        val asset:Asset? = this.assetHandler.getAsset(id)
         if (asset == null) {
             // TODO: error handling
             return "{\n}"
@@ -50,7 +50,7 @@ class AssetManagementController {
     @PostMapping("/assets")
     fun addAsset(@RequestBody assetDto: AssetDto, @RequestBody parentId: String? = null) {
         val asset = assetDto.toAsset()
-        val result:Boolean = this.assetList.addNewAsset(asset, parentId)
+        val result:Boolean = this.assetHandler.addNewAsset(asset, parentId)
         if (result == false) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add asset")
         }
@@ -58,14 +58,14 @@ class AssetManagementController {
 
     @DeleteMapping("/assets/{id}")
     fun deleteAsset(@PathVariable(value = "id") id: String) {
-        this.assetList.deleteAsset(id)
+        this.assetHandler.deleteAsset(id)
     }
 
     @PutMapping("/assets/{id}")
     fun modifyAsset(@PathVariable(value = "id") id: String, @RequestBody assetDto: AssetDto) {
         val updatedAsset = assetDto.toAsset()
         try {
-            this.assetList.modifyAsset(updatedAsset)
+            this.assetHandler.modifyAsset(updatedAsset)
         }
         catch(exception: IllegalArgumentException) {
             // TODO
@@ -74,6 +74,6 @@ class AssetManagementController {
 
     @PutMapping("/assets/{id}/audit")
     fun auditAsset(@PathVariable(value = "id") id: String) {
-        this.assetList.auditAsset(id)
+        this.assetHandler.auditAsset(id)
     }
 }

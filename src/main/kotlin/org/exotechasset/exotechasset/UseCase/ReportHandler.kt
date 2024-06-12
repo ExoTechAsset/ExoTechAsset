@@ -1,17 +1,17 @@
-package org.exotechasset.exotechasset.useCase
+package org.exotechasset.exotechasset.usecase
 
 import org.exotechasset.exotechasset.entity.Metric
 import org.exotechasset.exotechasset.entity.Report
-import org.exotechasset.exotechasset.usecase.AssetList
+import org.exotechasset.exotechasset.usecase.AssetHandler
 
 // TODO Change AssetList to AssetHandler
-class ReportHandler(assetList: AssetList) {
-    private var assetList:AssetList = assetList
+class ReportHandler(assetHandler: AssetHandler) {
+    private var assetHandler:AssetHandler = assetHandler
     public fun generateReport(reportType: ReportType, metrics: Metric): Report{
         // TODO
         var report: Report
         report = ReportFactory().generate(reportType, metrics)
-        assetList.accept(report)
+        assetHandler.accept(report)
         return report
     }
 }

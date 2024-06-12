@@ -1,7 +1,7 @@
 package org.exotechasset.exotechasset.UseCase
 
-import org.exotechasset.exotechasset.useCase.*
-import org.exotechasset.exotechasset.usecase.AssetList
+import org.exotechasset.exotechasset.usecase.*
+import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Assertions.*
@@ -13,7 +13,8 @@ class ImporterTest {
     private lateinit var assetListFile: AssetListFile
     @BeforeEach
     fun setUp() {
-        importer = Importer()
+        val assetHandler = AssetHandler()
+        importer = Importer(assetHandler)
         assetListFile = AssetListFile("./test.csv")
         val content = "id, status, assignee, auditDate, location, changelog\n" +
                 "asset1, Deployable, null, null, , []\n"
@@ -35,8 +36,7 @@ class ImporterTest {
 
     @Test
     fun importTest(){
-        var assetList = AssetList()
-        assetList = importer.import(assetList, assetListFile)
+        val assetList = this.importer.import(this.assetListFile)
         assertEquals(1, assetList.size())
         val asset = assetList.getAsset("asset1")
         assertEquals("asset1", asset!!.getId())

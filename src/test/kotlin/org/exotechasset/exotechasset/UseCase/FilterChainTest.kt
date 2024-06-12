@@ -4,7 +4,7 @@ import org.exotechasset.exotechasset.usecase.*
  import org.junit.jupiter.api.Test
 
  internal class FilterChainTest {
-     private val assetList = AssetList(listOf(Asset("AS-01"), Asset("AS-02"), Asset("AS-03")))
+     private val assetHandler = AssetHandler(listOf(Asset("AS-01"), Asset("AS-02"), Asset("AS-03")))
 
 //     @Test
 //     fun testFilterChain() {
@@ -20,21 +20,21 @@ import org.exotechasset.exotechasset.usecase.*
 //     }
     @Test
     fun testGetSize() {
-        val filterChain = FilterChain(this.assetList)
+        val filterChain = FilterChain(this.assetHandler)
 
         assertEquals(0, filterChain.size())
     }
 
      @Test
      fun testGetFilterList() {
-         val filterChain = FilterChain(this.assetList)
+         val filterChain = FilterChain(this.assetHandler)
 
          assertEquals(emptyList<Filter>(), filterChain.getFilterList())
      }
 
      @Test
      fun testAddFilter() {
-         val filterChain = FilterChain(this.assetList)
+         val filterChain = FilterChain(this.assetHandler)
          val filter = EqualsToFilter(listOf(
             FilterParameter(FilterParameterBy.ID, null),
             FilterParameter(FilterParameterBy.VALUE, "AS-01")
@@ -53,7 +53,7 @@ import org.exotechasset.exotechasset.usecase.*
              Asset("AS-03", auditDate = Date(1969632000))
          )
 
-         val filterChain = FilterChain(AssetList(assetList2))
+         val filterChain = FilterChain(AssetHandler(assetList2))
 
          val filter = GreaterThanFilter(listOf(
             FilterParameter(FilterParameterBy.AUDIT_DATE, null), 
@@ -72,7 +72,7 @@ import org.exotechasset.exotechasset.usecase.*
 
     // @Test
     // fun testRemoveFilter() {
-    //     val filterChain = FilterChain(this.assetList)
+    //     val filterChain = FilterChain(this.assetHandler)
     //     val filter = EqualsToFilter(listOf(
     //         FilterParameter(FilterParameterBy.ID, null),
     //         FilterParameter(FilterParameterBy.VALUE, "AS-01")

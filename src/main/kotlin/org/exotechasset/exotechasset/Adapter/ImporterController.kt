@@ -1,8 +1,8 @@
 package org.exotechasset.exotechasset.Adapter
 
 import org.exotechasset.exotechasset.adapter.ServiceController
-import org.exotechasset.exotechasset.useCase.AssetListFile
-import org.exotechasset.exotechasset.useCase.ExporterImporterHandler
+import org.exotechasset.exotechasset.usecase.AssetListFile
+import org.exotechasset.exotechasset.usecase.ExporterImporterHandler
 import org.exotechasset.exotechasset.usecase.AssetList
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class ImporterController {
-    private val assetList: AssetList = ServiceController.assetList
+    private val exporterImporterHandler: ExporterImporterHandler = ServiceController.exporterImporterHandler
 
     // Existing methods...
 
@@ -24,10 +24,9 @@ class ImporterController {
         return try {
             val fileContent = request["fileContent"] ?: throw IllegalArgumentException("File content is required")
 
-            val importerHandler = ExporterImporterHandler()
             val assetListFile = AssetListFile()
             assetListFile.write(fileContent)
-            importerHandler.importFile(assetList, assetListFile)
+            this.exporterImporterHandler.importFile(assetListFile)
 
             ResponseEntity.ok(mapOf("success" to true))
         } catch (e: Exception) {

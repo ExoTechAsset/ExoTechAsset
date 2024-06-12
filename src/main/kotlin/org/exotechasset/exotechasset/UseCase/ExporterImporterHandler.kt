@@ -1,15 +1,17 @@
-package org.exotechasset.exotechasset.useCase
+package org.exotechasset.exotechasset.usecase
 
+import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.exotechasset.exotechasset.usecase.AssetList
 
-class ExporterImporterHandler {
-    //ToDO Change AssetList to AssetHandler
-    public fun exportFile(filePath:String, assetList: AssetList): AssetListFile{
-        var exporter = Exporter()
-        return exporter.export(filePath, assetList)
+class ExporterImporterHandler(val assetHandler:AssetHandler) {
+
+    public fun exportFile(filePath:String): AssetListFile{
+        var exporter = Exporter(this.assetHandler)
+        return exporter.export(filePath)
     }
-    public fun importFile(assetList: AssetList, assetListFile: AssetListFile): AssetList{
-        var importer = Importer()
-        return importer.import(assetList, assetListFile)
+
+    public fun importFile(assetListFile: AssetListFile): AssetList{
+        var importer = Importer(this.assetHandler)
+        return importer.import(assetListFile)
     }
 }

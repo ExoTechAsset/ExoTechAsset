@@ -2,30 +2,31 @@ package org.exotechasset.exotechasset.UseCase
 
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.AssetGetBy
-import org.exotechasset.exotechasset.useCase.AssetListFile
-import org.exotechasset.exotechasset.useCase.ExporterImporterHandler
-import org.exotechasset.exotechasset.usecase.AssetList
+import org.exotechasset.exotechasset.usecase.AssetListFile
+import org.exotechasset.exotechasset.usecase.ExporterImporterHandler
+import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 
 class ExporterImporterHandlerTest {
-    private lateinit var assetList: AssetList
+    private lateinit var assetHandler: AssetHandler
     private lateinit var exporterImporterHandler: ExporterImporterHandler
+
     @BeforeEach
     fun setUp() {
-        assetList = AssetList()
+        this.assetHandler = AssetHandler()
         var asset1:Asset = Asset("asset1")
         var asset2:Asset = Asset("asset2")
-        assetList.addNewAsset(asset1)
-        assetList.addNewAsset(asset2)
-        exporterImporterHandler = ExporterImporterHandler()
+        this.assetHandler.addNewAsset(asset1)
+        this.assetHandler.addNewAsset(asset2)
+        this.exporterImporterHandler = ExporterImporterHandler(this.assetHandler)
     }
     // TODO Change AssetList to AssetHandler
     @Test
     fun exportFileTest() {
-        val assetListFile = exporterImporterHandler.exportFile("./test.csv", assetList)
+        val assetListFile = exporterImporterHandler.exportFile("./test.csv")
         val expect = "id, status, assignee, auditDate, location, changelog\n" +
                 "asset1, Deployable, null, null, , []\n" +
                 "asset2, Deployable, null, null, , []\n"
@@ -36,9 +37,10 @@ class ExporterImporterHandlerTest {
     @Test
     fun import() {
         val path = "./test.csv"
-        val assetListFile = exporterImporterHandler.exportFile(path, assetList)
-        val emptyAssetList = AssetList()
-        val result = exporterImporterHandler.importFile(emptyAssetList, assetListFile)
+        val assetListFile = exporterImporterHandler.exportFile(path)
+        val emptyAssetHandler = AssetHandler()
+        val emptyExporterImporterHandler = ExporterImporterHandler(emptyAssetHandler)
+        val result = emptyExporterImporterHandler.importFile(assetListFile)
 
         assertEquals(2, result.size())
         val asset1 = result.getAsset("asset1")

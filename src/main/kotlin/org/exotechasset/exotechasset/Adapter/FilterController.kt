@@ -3,7 +3,7 @@ package org.exotechasset.exotechasset.adapter
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.Filter
 import org.exotechasset.exotechasset.usecase.AssetIterator
-import org.exotechasset.exotechasset.usecase.AssetList
+import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.exotechasset.exotechasset.usecase.FilterChain
 import org.json.JSONObject
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class FilterController {
-    private val assetList: AssetList = ServiceController.assetList
+    private val assetHandler: AssetHandler = ServiceController.assetHandler
     private val filterChain: FilterChain = ServiceController.filterChain
 
     @GetMapping("/filters")

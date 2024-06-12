@@ -2,8 +2,6 @@ package org.exotechasset.exotechasset.entity
 
 import org.exotechasset.exotechasset.entity.AssetStatus.*
 
-// TODO: record into changelog
-
 class CompositeAsset(
         id: String,
         status: AssetStatus = DEPLOYABLE,
@@ -24,6 +22,7 @@ class CompositeAsset(
         this.children.put(newAssetId, asset)
 
         check(asset == this.children.get(newAssetId))
+        this.addChangelog("Added child asset with ID: $newAssetId")
     }
 
     public override fun removeChild(id: String) {
@@ -32,11 +31,13 @@ class CompositeAsset(
         this.children.remove(id)
 
         check(this.children.containsKey(id) == false)
+        this.addChangelog("Removed child asset with ID: $id")
     }
 
     public override fun removeChild(asset: Asset) {
         val id = asset.getId()
         this.removeChild(id)
+        this.addChangelog("Removed child asset with ID: $id")
     }
 
     public override fun modify(asset: Asset) {
@@ -47,5 +48,6 @@ class CompositeAsset(
 
         check(this.getChildrenIdList().equals(asset.getChildrenIdList()))
         check(this.getChildren().equals(asset.getChildren()))
+        this.addChangelog("Modify asset with ID: ${asset.getId()}")
     }
 }

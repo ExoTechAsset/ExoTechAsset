@@ -1,4 +1,4 @@
-package org.exotechasset.exotechasset.useCase
+package org.exotechasset.exotechasset.usecase
 
 class ScannerFactory {
     public fun get(assetListFile: AssetListFile): AbstractScanner{

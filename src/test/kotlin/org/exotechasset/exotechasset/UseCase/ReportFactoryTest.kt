@@ -1,9 +1,9 @@
 package org.exotechasset.exotechasset.UseCase
 
 import org.exotechasset.exotechasset.entity.*
-import org.exotechasset.exotechasset.useCase.ReportFactory
-import org.exotechasset.exotechasset.useCase.ReportHandler
-import org.exotechasset.exotechasset.useCase.ReportType
+import org.exotechasset.exotechasset.usecase.ReportFactory
+import org.exotechasset.exotechasset.usecase.ReportHandler
+import org.exotechasset.exotechasset.usecase.ReportType
 import org.exotechasset.exotechasset.usecase.AssetList
 import org.junit.jupiter.api.Test
 
