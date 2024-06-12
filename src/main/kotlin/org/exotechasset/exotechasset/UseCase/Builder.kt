@@ -42,8 +42,11 @@ class Builder {
             val date = Date(zoneDate.toInstant().epochSecond)
             asset.setAuditDate(date)
         }catch (e: Exception) {
-//            asset.setAuditDate(null)
+            // Not to set audit date is failed
         }
+    }
+    fun buildAssetChangelog(changelog: String){
+        // TODO: add codes
     }
     fun get(): Asset {
         return asset

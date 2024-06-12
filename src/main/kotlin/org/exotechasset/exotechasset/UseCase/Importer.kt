@@ -42,7 +42,7 @@ class Importer(val assetHandler:AssetHandler) {
         token = scanner.getNextToken()
         builder.buildAssetLocation(token)
         token = scanner.getNextToken()
-//        buildAssetChangelog(token)
+        builder.buildAssetChangelog(token)
 
         val asset = builder.get()
         return asset
