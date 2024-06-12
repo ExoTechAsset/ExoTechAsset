@@ -2,6 +2,7 @@ package org.exotechasset.exotechasset.UseCase
 
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.AssetStatus
+import org.exotechasset.exotechasset.entity.CompositeAsset
 import org.exotechasset.exotechasset.entity.Date
 import org.exotechasset.exotechasset.entity.Location
 import org.exotechasset.exotechasset.usecase.AbstractScanner
@@ -15,10 +16,10 @@ class Builder {
 
 
     fun createNewAsset(){
-        asset = Asset("")
+        asset = CompositeAsset("")
     }
     fun buildAssetId(id: String){
-        asset = Asset(id)
+        asset = CompositeAsset(id)
     }
 
 

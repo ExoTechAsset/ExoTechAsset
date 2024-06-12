@@ -23,8 +23,8 @@ internal class CompositeAssetTest {
     @Test
     fun testGetChildrenIdList() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child1 = Asset(id = "child1")
-        val child2 = Asset(id = "child2")
+        val child1 = ConcreteAsset(id = "child1")
+        val child2 = ConcreteAsset(id = "child2")
 
         compositeAsset.addChild(child1)
         compositeAsset.addChild(child2)
@@ -35,8 +35,8 @@ internal class CompositeAssetTest {
     @Test
     fun testGetChildren() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child1 = Asset(id = "child1")
-        val child2 = Asset(id = "child2")
+        val child1 = ConcreteAsset(id = "child1")
+        val child2 = ConcreteAsset(id = "child2")
 
         compositeAsset.addChild(child1)
         compositeAsset.addChild(child2)
@@ -47,7 +47,7 @@ internal class CompositeAssetTest {
     @Test
     fun testHasChildren() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child1 = Asset(id = "child1")
+        val child1 = ConcreteAsset(id = "child1")
 
         assertEquals(false, compositeAsset.hasChildren())
 
@@ -59,7 +59,7 @@ internal class CompositeAssetTest {
     @Test
     fun testAdd() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child1 = Asset(id = "child1")
+        val child1 = ConcreteAsset(id = "child1")
 
         compositeAsset.addChild(child1)
 
@@ -69,7 +69,7 @@ internal class CompositeAssetTest {
     @Test
     fun testRemoveById() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child1 = Asset(id = "child1")
+        val child1 = ConcreteAsset(id = "child1")
 
         compositeAsset.addChild(child1)
         compositeAsset.removeChild("child1")
@@ -80,7 +80,7 @@ internal class CompositeAssetTest {
     @Test
     fun testRemoveByAsset() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child1 = Asset(id = "child1")
+        val child1 = ConcreteAsset(id = "child1")
 
         compositeAsset.addChild(child1)
         compositeAsset.removeChild(child1)
@@ -91,7 +91,7 @@ internal class CompositeAssetTest {
     @Test
     fun testModify() {
         val compositeAsset = CompositeAsset(id = "parent")
-        val child2 = Asset(id = "parent", status = AssetStatus.UNDEPLOYABLE)
+        val child2 = ConcreteAsset(id = "parent", status = AssetStatus.UNDEPLOYABLE)
 
         compositeAsset.modify(child2)
 

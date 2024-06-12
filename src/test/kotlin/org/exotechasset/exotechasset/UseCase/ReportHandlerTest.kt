@@ -4,6 +4,7 @@ package org.exotechasset.exotechasset.UseCase
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.AssetGetBy
 import org.exotechasset.exotechasset.entity.AssetStatus
+import org.exotechasset.exotechasset.entity.ConcreteAsset
 import org.exotechasset.exotechasset.entity.Metric
 import org.exotechasset.exotechasset.usecase.ReportHandler
 import org.exotechasset.exotechasset.usecase.ReportType
@@ -21,8 +22,8 @@ class ReportHandlerTest {
         var metric: Metric = Metric(mutablemap)
         var result:Any
         var expects:Any
-        val asset1 = Asset("Asset 1")
-        val asset2 = Asset("Asset 2")
+        val asset1 = ConcreteAsset("Asset 1")
+        val asset2 = ConcreteAsset("Asset 2")
 
         assetHandler.addNewAsset(asset1)
         assetHandler.addNewAsset(asset2)
@@ -42,8 +43,8 @@ class ReportHandlerTest {
         var metric:Metric = Metric(mutablemap)
         var result:Any
         var expects:Any
-        val asset1 = Asset("Asset 1")
-        val asset2 = Asset("Asset 2")
+        val asset1 = ConcreteAsset("Asset 1")
+        val asset2 = ConcreteAsset("Asset 2")
 
         assetHandler.addNewAsset(asset1)
         assetHandler.addNewAsset(asset2)
@@ -62,9 +63,9 @@ class ReportHandlerTest {
         metric.addMetrics(AssetGetBy.STATUS, "1");
         var result:Any
         var expects:Any
-        val asset1 = Asset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
-        val asset2 = Asset("Asset 2")
-        val asset3 = Asset("Asset 3")
+        val asset1 = ConcreteAsset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
+        val asset2 = ConcreteAsset("Asset 2")
+        val asset3 = ConcreteAsset("Asset 3")
 
         assetHandler.addNewAsset(asset1)
         assetHandler.addNewAsset(asset2)
@@ -84,8 +85,8 @@ class ReportHandlerTest {
         var metric: Metric = Metric(mutablemap)
         var result:Any
         var expects:Any
-        val asset1 = Asset("Asset 1")
-        val asset2 = Asset("Asset 2")
+        val asset1 = ConcreteAsset("Asset 1")
+        val asset2 = ConcreteAsset("Asset 2")
 
         assetHandler.addNewAsset(asset1)
         assetHandler.addNewAsset(asset2)

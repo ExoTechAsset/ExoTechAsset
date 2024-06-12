@@ -15,8 +15,8 @@ class TableTest {
         metric.addMetrics(AssetGetBy.ID, "1");
         metric.addMetrics(AssetGetBy.STATUS, "2");
         var table: Table = Table(metric);
-        val asset1 = Asset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
-        val asset2 = Asset("Asset 2")
+        val asset1 = ConcreteAsset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
+        val asset2 = ConcreteAsset("Asset 2")
         val assetList = AssetList()
         assetList.addNewAsset(asset1)
         assetList.addNewAsset(asset2)

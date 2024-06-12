@@ -1,6 +1,7 @@
 package org.exotechasset.exotechasset.UseCase
 
 import org.exotechasset.exotechasset.entity.Asset
+import org.exotechasset.exotechasset.entity.ConcreteAsset
 import org.exotechasset.exotechasset.usecase.Exporter
 import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.junit.jupiter.api.Test
@@ -14,8 +15,8 @@ class ExporterTest {
         val assetHandler = AssetHandler()
         val exporter = Exporter(assetHandler)
 
-        val asset1 = Asset("asset1")
-        val asset2 = Asset("asset2")
+        val asset1:Asset = ConcreteAsset("asset1")
+        val asset2:Asset = ConcreteAsset("asset2")
         assetHandler.addNewAsset(asset1)
         assetHandler.addNewAsset(asset2)
 

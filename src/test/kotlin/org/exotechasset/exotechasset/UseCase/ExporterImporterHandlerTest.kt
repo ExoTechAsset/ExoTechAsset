@@ -1,6 +1,7 @@
 package org.exotechasset.exotechasset.UseCase
 
 import org.exotechasset.exotechasset.entity.Asset
+import org.exotechasset.exotechasset.entity.ConcreteAsset
 import org.exotechasset.exotechasset.entity.AssetGetBy
 import org.exotechasset.exotechasset.usecase.AssetListFile
 import org.exotechasset.exotechasset.usecase.ExporterImporterHandler
@@ -17,8 +18,8 @@ class ExporterImporterHandlerTest {
     @BeforeEach
     fun setUp() {
         this.assetHandler = AssetHandler()
-        var asset1:Asset = Asset("asset1")
-        var asset2:Asset = Asset("asset2")
+        var asset1:Asset = ConcreteAsset("asset1")
+        var asset2:Asset = ConcreteAsset("asset2")
         this.assetHandler.addNewAsset(asset1)
         this.assetHandler.addNewAsset(asset2)
         this.exporterImporterHandler = ExporterImporterHandler(this.assetHandler)

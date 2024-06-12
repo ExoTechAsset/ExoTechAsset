@@ -14,9 +14,9 @@ class PieChartTest {
         val metric = Metric(mutableMapOf<AssetGetBy, Any>());
         metric.addMetrics(AssetGetBy.STATUS, "1");
         var pieChart:PieChart = PieChart(metric);
-        val asset1 = Asset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
-        val asset2 = Asset("Asset 2")
-        val asset3 = Asset("Asset 3")
+        val asset1 = ConcreteAsset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
+        val asset2 = ConcreteAsset("Asset 2")
+        val asset3 = ConcreteAsset("Asset 3")
         val assetList = AssetList()
         assetList.addNewAsset(asset1)
         assetList.addNewAsset(asset2)

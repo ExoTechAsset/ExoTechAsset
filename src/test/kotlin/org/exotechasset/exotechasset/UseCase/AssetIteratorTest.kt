@@ -1,4 +1,4 @@
-import org.exotechasset.exotechasset.entity.Asset
+import org.exotechasset.exotechasset.entity.ConcreteAsset
 import org.exotechasset.exotechasset.usecase.AssetIterator
 import org.exotechasset.exotechasset.usecase.AssetList
 import org.junit.jupiter.api.Assertions.*
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 internal class AssetIteratorTest {
     @Test
     fun testAssetIterator() {
-        val assets = listOf(Asset("Asset 1"), Asset("Asset 2"), Asset("Asset 3"))
+        val assets = listOf(ConcreteAsset("Asset 1"), ConcreteAsset("Asset 2"), ConcreteAsset("Asset 3"))
         val assetList = AssetList(assets)
         val iterator = AssetIterator(assetList)
 
@@ -29,8 +29,8 @@ internal class AssetIteratorTest {
 
     @Test
     fun testNext() {
-        val asset1 = Asset(id = "asset1")
-        val asset2 = Asset(id = "asset2")
+        val asset1 = ConcreteAsset(id = "asset1")
+        val asset2 = ConcreteAsset(id = "asset2")
         val assetList = AssetList(listOf(asset1, asset2))
         val assetIterator = AssetIterator(assetList)
 
@@ -43,7 +43,7 @@ internal class AssetIteratorTest {
 
     @Test
     fun testHasNext() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetList = AssetList(listOf(asset1))
         val assetIterator = AssetIterator(assetList)
 
@@ -55,7 +55,7 @@ internal class AssetIteratorTest {
 
     @Test
     fun `test getValue`() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetList = AssetList(listOf(asset1))
         val assetIterator = AssetIterator(assetList)
 

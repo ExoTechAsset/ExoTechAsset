@@ -1,4 +1,4 @@
-import org.exotechasset.exotechasset.entity.Asset
+import org.exotechasset.exotechasset.entity.ConcreteAsset
 import org.exotechasset.exotechasset.entity.AssetStatus
 import org.exotechasset.exotechasset.entity.Date
 import org.exotechasset.exotechasset.usecase.AssetHandler
@@ -9,9 +9,9 @@ import java.time.Instant
 internal class AssetHandlerTest {
     @Test
     fun testAssetHandler() {
-        val asset1 = Asset("Asset 1")
-        val asset2 = Asset("Asset 2")
-        val asset3 = Asset("Asset 3")
+        val asset1 = ConcreteAsset("Asset 1")
+        val asset2 = ConcreteAsset("Asset 2")
+        val asset3 = ConcreteAsset("Asset 3")
 
         val assetHandler = AssetHandler()
 
@@ -30,7 +30,7 @@ internal class AssetHandlerTest {
 
     @Test
     fun testAddNewAsset() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler()
         assetHandler.addNewAsset(asset1)
 
@@ -39,9 +39,9 @@ internal class AssetHandlerTest {
 
     @Test
     fun testModifyAsset() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler(listOf(asset1))
-        val modifiedAsset = Asset(id = "asset1", status = AssetStatus.UNDEPLOYABLE)
+        val modifiedAsset = ConcreteAsset(id = "asset1", status = AssetStatus.UNDEPLOYABLE)
         val result = assetHandler.modifyAsset(modifiedAsset)
 
         assertTrue(result)
@@ -50,7 +50,7 @@ internal class AssetHandlerTest {
 
     @Test
     fun testDeleteAssetById() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler(listOf(asset1))
         assetHandler.deleteAsset("asset1")
 
@@ -59,7 +59,7 @@ internal class AssetHandlerTest {
 
     @Test
     fun testDeleteAsset() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler(listOf(asset1))
         assetHandler.deleteAsset(asset1)
 
@@ -68,7 +68,7 @@ internal class AssetHandlerTest {
 
     @Test
     fun testAuditAsset() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler(listOf(asset1))
         val now = Date.ofNow()
 
@@ -79,7 +79,7 @@ internal class AssetHandlerTest {
 
     @Test
     fun testGetChildren() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler()
         assetHandler.addNewAsset(asset1)
 
@@ -88,7 +88,7 @@ internal class AssetHandlerTest {
 
     @Test
     fun testClone() {
-        val asset1 = Asset(id = "asset1")
+        val asset1 = ConcreteAsset(id = "asset1")
         val assetHandler = AssetHandler()
         assetHandler.addNewAsset(asset1)
 

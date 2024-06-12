@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class FilterListTest {
-    private val assetHandler = AssetHandler(listOf(Asset("AS-01"), Asset("AS-02"), Asset("AS-03")))
+    private val assetHandler = AssetHandler(listOf(ConcreteAsset("AS-01"), ConcreteAsset("AS-02"), ConcreteAsset("AS-03")))
 
     //     @Test
     //     fun testFilterList() {
@@ -46,9 +46,9 @@ internal class FilterListTest {
     fun testFilter() {
         val assetList2 =
                 listOf(
-                        Asset("AS-01", auditDate = Date(1714402762)),
-                        Asset("AS-02", auditDate = Date(1717171200)),
-                        Asset("AS-03", auditDate = Date(1969632000))
+                        ConcreteAsset("AS-01", auditDate = Date(1714402762)),
+                        ConcreteAsset("AS-02", auditDate = Date(1717171200)),
+                        ConcreteAsset("AS-03", auditDate = Date(1969632000))
                 )
 
         val filterList = FilterList(AssetHandler(assetList2))

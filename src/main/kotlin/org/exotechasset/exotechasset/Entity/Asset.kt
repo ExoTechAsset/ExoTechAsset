@@ -5,7 +5,7 @@ import org.exotechasset.exotechasset.entity.AssetStatus.*
 // TODO: auto determine id
 // TODO: record into changelog
 
-open class Asset(
+abstract class Asset(
         private var id: String,
         private var status: AssetStatus = DEPLOYABLE,
         private var assignee: String? = null,

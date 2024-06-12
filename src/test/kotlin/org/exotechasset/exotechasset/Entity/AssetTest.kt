@@ -3,7 +3,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class AssetTest {
-    private val asset: Asset = Asset("AS-01")
+    private val asset: Asset = ConcreteAsset("AS-01")
 
     @Test
     fun suite() {
@@ -51,7 +51,7 @@ internal class AssetTest {
 
     @Test
     fun testModify() {
-        val asset2 = Asset(asset.getId(), status = AssetStatus.UNDEPLOYABLE)
+        val asset2 = ConcreteAsset(asset.getId(), status = AssetStatus.UNDEPLOYABLE)
         assertEquals(asset.getId(), asset2.getId())
         asset.modify(asset2)
         assertEquals(AssetStatus.UNDEPLOYABLE, this.asset.getStatus())
