@@ -46,9 +46,15 @@ class Builder {
             // Not to set audit date is failed
         }
     }
-    fun buildAssetChangelog(changelog: String){
-        // TODO: add codes
+    fun buildAssetDescription(description: String){
+        asset.setDescription(description)
     }
+    fun buildAssetParentId(parentId: String?){
+        asset.setParentId(parentId)
+    }
+    // fun buildAssetChangelog(changelog: String){
+    //     // TODO: add codes
+    // }
     fun get(): Asset {
         return asset
     }

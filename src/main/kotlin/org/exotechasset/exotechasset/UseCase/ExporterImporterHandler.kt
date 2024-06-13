@@ -11,8 +11,8 @@ class ExporterImporterHandler(val assetHandler:AssetHandler) {
         file.write(content)
     }
 
-    public fun importFile(assetListFile: AssetListFile): AssetList{
+    public fun importFile(assetListFile: AssetListFile){
         var importer = Importer(this.assetHandler)
-        return importer.import(assetListFile)
+        importer.import(assetListFile)
     }
 }

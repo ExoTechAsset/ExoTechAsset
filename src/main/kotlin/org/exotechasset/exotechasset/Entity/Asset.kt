@@ -57,6 +57,10 @@ abstract class Asset(
         this.changelog.add(log)
     }
     public fun getDescription(): String = this.description
+
+    public fun setDescription(description:String) {
+        this.description = description
+    }
     public open fun hasChildren(): Boolean = false
     public open fun getChildrenIdList(): List<String> = emptyList()
     public open fun getChildren(): List<Asset> = emptyList()
