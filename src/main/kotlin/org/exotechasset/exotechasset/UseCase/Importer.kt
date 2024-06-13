@@ -19,7 +19,7 @@ class Importer(val assetHandler:AssetHandler) {
             when(state) {
                 ScannerState.NEW_LINE -> {
                     val asset:Asset = builder.get()
-                    this.assetHandler.addNewAsset(asset, asset.getParentId())
+                    val result = this.assetHandler.addNewAsset(asset, asset.getParentId())
                 }
                 ScannerState.ID -> {
                     builder.createNewAsset()

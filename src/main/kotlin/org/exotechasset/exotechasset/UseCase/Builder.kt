@@ -32,12 +32,24 @@ class Builder {
         }
     }
     fun buildAssetLocation(location: String){
+        // TODO: use another mechanism to replace this tricky one
+        if (location == "null") {
+            return
+        }
         asset.setLocation(Location(location))
     }
     fun buildAssetAssignee(assignee: String?){
+        // TODO: use another mechanism to replace this tricky one
+        if (assignee == "null") {
+            return
+        }
         asset.setAssignee(assignee)
     }
     fun buildAssetAuditDate(auditDate: String){
+        // TODO: use another mechanism to replace this tricky one
+        if (auditDate == "null") {
+            return
+        }
         try {
             val zoneDate: ZonedDateTime = ZonedDateTime.parse(auditDate)
             val date = Date(zoneDate.toInstant().epochSecond)
@@ -47,9 +59,17 @@ class Builder {
         }
     }
     fun buildAssetDescription(description: String){
+        // TODO: use another mechanism to replace this tricky one
+        if (description == "null") {
+            return
+        }
         asset.setDescription(description)
     }
     fun buildAssetParentId(parentId: String?){
+        // TODO: use another mechanism to replace this tricky one
+        if (parentId == "null") {
+            return
+        }
         asset.setParentId(parentId)
     }
     // fun buildAssetChangelog(changelog: String){
