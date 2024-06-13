@@ -12,7 +12,6 @@ internal class AssetTest {
         assertEquals(null, this.asset.getAssignee())
         assertEquals(null, this.asset.getAuditDate())
         assertEquals(null, this.asset.getLocation())
-        // assertEquals(Changelog(), this.asset.getChangelog())
         assertEquals(emptyList(), this.asset.getChildrenIdList())
     }
 
@@ -65,17 +64,4 @@ internal class AssetTest {
 
         assertEquals(now, this.asset.getAuditDate())
     }
-    // @Test
-    // fun testSetChangelog() {
-    //     val newChangelog = Changelog()
-    //     this.asset.setChangelog(newChangelog)
-    //     assertEquals(newChangelog, this.asset.getChangelog())
-    // }
-
-    // @Test
-    // fun testSetChildrenIdList() {
-    //     val newChildrenIdList = listOf("AS-02", "AS-03")
-    //     this.asset.setChildrenIdList(newChildrenIdList)
-    //     assertEquals(newChildrenIdList, this.asset.getChildrenIdList())
-    // }
 }
