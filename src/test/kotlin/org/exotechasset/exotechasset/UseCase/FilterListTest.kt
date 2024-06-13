@@ -6,18 +6,6 @@ import org.junit.jupiter.api.Test
 internal class FilterListTest {
     private val assetHandler = AssetHandler(listOf(ConcreteAsset("AS-01"), ConcreteAsset("AS-02"), ConcreteAsset("AS-03")))
 
-    //     @Test
-    //     fun testFilterList() {
-    //         val filterList = FilterList(this.assetList)
-    //         val filter = Filter("Category", "Electronics")
-    //
-    //         assertEquals(0, filterList.size())
-    //
-    //         filterList.addFilter(filter)
-    //
-    //         assertEquals(1, filterList.size())
-    //         assertEquals(emptyList<Filter>(), filterList.getFilterList())
-    //     }
     @Test
     fun testGetSize() {
         val filterList = FilterList(this.assetHandler)
