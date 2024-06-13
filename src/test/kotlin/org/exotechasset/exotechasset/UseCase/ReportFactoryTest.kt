@@ -76,29 +76,4 @@ class ReportFactoryTest {
 
         kotlin.test.assertEquals(expects, result.toString());
     }
-
-    // @Test
-    // fun generateCsv(){
-    //     val assetList = AssetList()
-    //     val metric = Metric(mutableMapOf<AssetGetBy, Any>());
-    //     metric.addMetrics(AssetGetBy.STATUS, "1");
-    //     var result:Any
-    //     var expects:Any
-    //     val asset1 = ConcreteAsset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
-    //     val asset2 = ConcreteAsset("Asset 2")
-    //     val asset3 = ConcreteAsset("Asset 3")
-
-    //     assetList.addNewAsset(asset1)
-    //     assetList.addNewAsset(asset2)
-    //     assetList.addNewAsset(asset3)
-    //     val report = reportFactory.generate(ReportType.CSV, metric)
-    //     assetList.accept(report)
-    //     result = report.get()
-    //     expects = "id, status, assignee, auditDate, location, changelog, parentId\n" +
-    //             "Asset 1, Undeployable, null, null, , [], \n" +
-    //             "Asset 2, Deployable, null, null, , [], \n" +
-    //             "Asset 3, Deployable, null, null, , [], \n"
-
-    //     kotlin.test.assertEquals(expects, result.toString());
-    // }
 }
