@@ -11,8 +11,8 @@ class CsvVisitorTest {
     @Test
     fun getCsv() {
         var csvVisitor:CsvVisitor = CsvVisitor();
-        val asset1 = Asset(id = "Asset 1", status = AssetStatus.UNDEPLOYABLE, assignee = "Kuo", auditDate = Date(1714608000), location = Location("Room 1623"))
-        val asset2 = Asset("Asset 2")
+        val asset1 = ConcreteAsset(id = "Asset 1", status = AssetStatus.UNDEPLOYABLE, assignee = "Kuo", auditDate = Date(1714608000), location = Location("Room 1623"))
+        val asset2 = ConcreteAsset("Asset 2")
         val assetList = AssetList()
         assetList.addNewAsset(asset1)
         assetList.addNewAsset(asset2)

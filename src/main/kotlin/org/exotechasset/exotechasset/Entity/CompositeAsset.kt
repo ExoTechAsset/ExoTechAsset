@@ -8,8 +8,10 @@ class CompositeAsset(
         assignee: String? = null,
         auditDate: Date? = null,
         location: Location? = null,
-        changelog: Changelog = Changelog()
-) : Asset(id, status, assignee, auditDate, location, changelog) {
+        changelog: Changelog = Changelog(),
+        description: String = "",
+        parentId: String? = null
+) : Asset(id, status, assignee, auditDate, location, changelog, description, parentId) {
     private var children: MutableMap<String, Asset> = mutableMapOf()
 
     public override fun getChildrenIdList(): List<String> = this.children.keys.toList()
@@ -19,6 +21,7 @@ class CompositeAsset(
 
     public override fun addChild(asset: Asset) {
         val newAssetId: String = asset.getId()
+        asset.setParentId(this.getId())
         this.children.put(newAssetId, asset)
 
         check(asset == this.children.get(newAssetId))

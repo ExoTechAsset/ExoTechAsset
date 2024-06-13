@@ -105,7 +105,7 @@
     <div id="allAssets"></div>
     <div class="form-group">
 <!--        <input type="text" id="folderPath" placeholder="Selected folder path will appear here" >-->
-        <input type="text" id="fileName" placeholder="Enter file name (with .csv extension)">
+        <!-- <input type="text" id="fileName" placeholder="Enter file name (with .csv extension)"> -->
 <!--        <button onclick="selectFolder()">Select Folder</button>-->
         <button onclick="exportAssets()">Export</button>
         <button class="back-button" onclick="goToIndex()">Back</button>
@@ -179,29 +179,33 @@
         //     return;
         // }
 
-        const fileName = document.getElementById('fileName').value;
-        if (!fileName || !fileName.endsWith('.csv')) {
-            alert('Please enter a valid file name with .csv extension');
-            return;
-        }
+        // const fileName = document.getElementById('fileName').value;
+        // if (!fileName || !fileName.endsWith('.csv')) {
+        //     alert('Please enter a valid file name with .csv extension');
+        //     return;
+        // }
         // const correctFolderPath = folderPath.endsWith('\\') ? folderPath : folderPath + '\\';
-        const path =  fileName;
-        console.log(path);
-        fetch('/export-assets', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ filePath: path })
-        })
+        // const path =  fileName;
+        // console.log(path);
+
+        const url = `/export-assets?fileName=${encodeURIComponent("download.csv")}`;
+        fetch(url, { method: 'POST', })
             .then(response => {
                 if (response.ok) {
-                    alert('Assets exported successfully');
-                    console.log(response.text())
+                    return response.blob();
                 } else {
-                    console.error('Error exporting assets:', response.statusText);
-                    alert('Error exporting assets');
+                    throw new Error('Error exporting assets');
                 }
+            })
+            .then(blob => {
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = "download.csv";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(downloadUrl);
             })
             .catch(error => {
                 console.error('Error exporting assets:', error);

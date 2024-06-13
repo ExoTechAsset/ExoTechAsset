@@ -5,13 +5,14 @@ import org.exotechasset.exotechasset.usecase.AssetList
 
 class ExporterImporterHandler(val assetHandler:AssetHandler) {
 
-    public fun exportFile(filePath:String): AssetListFile{
+    public fun exportFile(file:AssetListFile){
         var exporter = Exporter(this.assetHandler)
-        return exporter.export(filePath)
+        val content:String = exporter.export()
+        file.write(content)
     }
 
-    public fun importFile(assetListFile: AssetListFile): AssetList{
+    public fun importFile(assetListFile: AssetListFile){
         var importer = Importer(this.assetHandler)
-        return importer.import(assetListFile)
+        importer.import(assetListFile)
     }
 }

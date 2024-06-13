@@ -2,26 +2,29 @@ package org.exotechasset.exotechasset.usecase
 
 import java.util.*
 
-class CsvScanner: AbstractScanner() {
-//    "TODO: String format?"
-    private var assetListFile: AssetListFile = AssetListFile("")
-    private var scanner: Scanner = Scanner("")
-    public override fun get(assetListFile: AssetListFile){
-        // TODO
-        this.assetListFile = assetListFile
-        scanner = Scanner(assetListFile.getContent())
-        scanner.useDelimiter(", |\\n")
-    }
-    public override fun getNextToken(): String{
-        // TODO
-        val token = scanner.next()
-        return token
-    }
-    public override fun hasNext(): Boolean{
-        // TODO
-        if (scanner.hasNext()){
-            return true
+class CsvScanner(val text:String): AbstractScanner() {
+    private val splittedStrList:List<String> = text.lines().drop(1)
+    private val splittedStrListIterator = splittedStrList.iterator()
+    // TODO: improve this mechanism
+    private var subList:List<String> = splittedStrListIterator.next().split(",")
+    private var subListIterator = subList.iterator()
+
+    private var token:String = ""
+    private var state:ScannerState = ScannerState.NEW_LINE
+
+    public override fun get() = this.token
+    public override fun getNextToken():String {
+        if (this.subListIterator.hasNext()) {
+            this.token = this.subListIterator.next()
+        } else if (this.splittedStrListIterator.hasNext()) {
+            this.subList = this.splittedStrListIterator.next().split(",")
+            this.subListIterator = this.subList.iterator()
+        } else {
+            throw IllegalArgumentException()
         }
-        return false
+        state = state.next() as ScannerState
+        return this.token
     }
+    public fun getState() = this.state
+    public override fun hasNext(): Boolean = ((this.subListIterator.hasNext()) || (splittedStrListIterator.hasNext()))
 }

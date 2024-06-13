@@ -1,4 +1,4 @@
-package org.exotechasset.exotechasset.Adapter
+package org.exotechasset.exotechasset.adapter
 
 import org.exotechasset.exotechasset.adapter.ServiceController
 import org.exotechasset.exotechasset.usecase.AssetListFile
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.multipart.MultipartFile
-
 
 @RestController
 class ImporterController {
@@ -20,15 +18,16 @@ class ImporterController {
     // Existing methods...
 
     @PostMapping("/import-assets")
-    fun importAssets(@RequestBody request: Map<String, String>): ResponseEntity<Map<String, Any>> {
+    fun importAssets(@RequestBody requestData:Map<String, String>): ResponseEntity<Any> {
         return try {
-            val fileContent = request["fileContent"] ?: throw IllegalArgumentException("File content is required")
+            val fileContent = requestData["fileContent"] ?: throw IllegalArgumentException("File content missing")
 
-            val assetListFile = AssetListFile()
-            assetListFile.write(fileContent)
-            this.exporterImporterHandler.importFile(assetListFile)
+            val webFile:WebFileTransmission = WebFileTransmission()
+            webFile.giveReadString(fileContent)
 
-            ResponseEntity.ok(mapOf("success" to true))
+            this.exporterImporterHandler.importFile(webFile)
+
+            ResponseEntity("success", HttpStatus.OK)
         } catch (e: Exception) {
             e.printStackTrace()
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mapOf("success" to false))

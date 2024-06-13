@@ -14,7 +14,7 @@ class NotEqualsToFilter(field: FilterField, value: Any) : Filter(field, value) {
             if (!(value is String)) {
                 continue
             }
-            var valueStr = value as String
+            var valueStr = value
             if (assetStr != valueStr) {
                 result.add(asset)
             }

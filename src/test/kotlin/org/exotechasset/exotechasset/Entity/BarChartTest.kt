@@ -14,7 +14,7 @@ class BarChartTest {
 //        metric.addMetrics(AssetGetBy.ID, "1");
 //        metric.addMetrics(AssetGetBy.STATUS, "2");
 //        var barChart: BarChart = BarChart(metric);
-//        val asset: Asset = Asset("AS-01");
+//        val asset: Asset = ConcreteAsset("AS-01");
 //        val expect_id = "AS-01"
 //        val expect_Status = "Deployable"
 //
@@ -30,9 +30,9 @@ class BarChartTest {
         metric.addMetrics(AssetGetBy.ID, "y");
         metric.addMetrics(AssetGetBy.STATUS, "x");
         var barChart: BarChart = BarChart(metric);
-        val asset1 = Asset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
-        val asset2 = Asset("Asset 2")
-        val asset3 = Asset("Asset 3")
+        val asset1 = ConcreteAsset("Asset 1", status = AssetStatus.UNDEPLOYABLE)
+        val asset2 = ConcreteAsset("Asset 2")
+        val asset3 = ConcreteAsset("Asset 3")
         val assetList = AssetList()
         assetList.addNewAsset(asset1)
         assetList.addNewAsset(asset2)

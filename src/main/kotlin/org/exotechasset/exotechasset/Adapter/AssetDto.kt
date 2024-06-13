@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.entity.AssetStatus
+import org.exotechasset.exotechasset.entity.CompositeAsset
 import org.exotechasset.exotechasset.entity.Date
 import org.exotechasset.exotechasset.entity.Location
 import org.exotechasset.exotechasset.entity.ToStringInterface
@@ -84,7 +85,7 @@ data public class AssetDto(
                     else -> AssetStatus.DEPLOYABLE
                 }
 
-        return Asset(
+        return CompositeAsset(
                 this.id,
                 status,
                 this.assignee,

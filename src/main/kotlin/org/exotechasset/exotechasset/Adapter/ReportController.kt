@@ -1,4 +1,4 @@
-package org.exotechasset.exotechasset.Adapter
+package org.exotechasset.exotechasset.adapter
 
 import ReportRequest
 import org.exotechasset.exotechasset.adapter.ServiceController

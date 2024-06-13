@@ -5,14 +5,15 @@ import org.exotechasset.exotechasset.entity.AssetStatus.*
 // TODO: auto determine id
 // TODO: record into changelog
 
-open class Asset(
+abstract class Asset(
         private var id: String,
         private var status: AssetStatus = DEPLOYABLE,
         private var assignee: String? = null,
         private var auditDate: Date? = null,
         private var location: Location? = null,
         private var changelog: Changelog = Changelog(),
-        private var description: String = ""
+        private var description: String = "",
+        private var parentId: String? = null
 ) {
 
     constructor(
@@ -56,9 +57,18 @@ open class Asset(
         this.changelog.add(log)
     }
     public fun getDescription(): String = this.description
+
+    public fun setDescription(description:String) {
+        this.description = description
+    }
     public open fun hasChildren(): Boolean = false
     public open fun getChildrenIdList(): List<String> = emptyList()
     public open fun getChildren(): List<Asset> = emptyList()
+
+    public open fun getParentId(): String? = this.parentId
+    public open fun setParentId (parentId:String?) {
+        this.parentId = parentId
+    }
 
     public open fun modify(asset: Asset) {
         require(this.id == asset.id)
