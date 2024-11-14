@@ -1,6 +1,6 @@
 package org.exotechasset.exotechasset.usecase
 
-import org.exotechasset.exotechasset.UseCase.Builder
+import org.exotechasset.exotechasset.usecase.Builder
 import org.exotechasset.exotechasset.entity.Asset
 import org.exotechasset.exotechasset.usecase.AssetHandler
 import org.exotechasset.exotechasset.usecase.AssetList

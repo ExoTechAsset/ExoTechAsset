@@ -1,4 +1,4 @@
-// package org.exotechasset.exotechasset.UseCase
+// package org.exotechasset.exotechasset.usecase
 
 // import org.exotechasset.exotechasset.usecase.AssetListFile
 // import org.exotechasset.exotechasset.usecase.CsvScanner
